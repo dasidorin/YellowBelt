@@ -20,8 +20,10 @@ public:
         }
 
         matrix.resize(num_rows);
-        for (auto row : matrix) {
-            row.resize(num_cols);
+        if (num_rows != 0 || num_cols != 0) {
+            for (auto row : matrix) {
+                row.resize(num_cols);
+            }
         }
     }
 
@@ -33,10 +35,12 @@ public:
         }
 
         matrix.resize(num_rows);
-        for (auto& row : matrix) {
-            row.resize(num_cols);
-            for (auto& item : row) {
-                item = 0;
+        if (num_cols != 0 && num_rows != 0) {
+            for (auto& row : matrix) {
+                row.resize(num_cols);
+                for (auto& item : row) {
+                    item = 0;
+                }
             }
         }
     }
@@ -44,7 +48,7 @@ public:
     int At(int row, int col) const {
         //вернуть элемент по адресу [row][col]
         //выкинуть out_of_range если ячейка выходит за границв матрицы
-        if (row > GetNumRows() - 1 || col > GetNumColumns() - 1) {
+        if (row > GetNumRows() - 1 || row < 0 || col > GetNumColumns() - 1 || col < 0) {
             throw out_of_range("");
         }
 
@@ -54,7 +58,7 @@ public:
     int& At(int row, int col) {
         //вернуть ссылку на элемент по адресу [row][col]
         //выкинуть out_of_range если ячейка выходит за границв матрицы
-        if (row > GetNumRows() - 1 || col > GetNumColumns() - 1) {
+        if (row > GetNumRows() - 1 || row < 0 || col > GetNumColumns() - 1 || col < 0) {
             throw out_of_range("");
         }
 
@@ -68,7 +72,10 @@ public:
 
     int GetNumColumns() const {
         //вернуть количество столбцов в матрице
-        return matrix[0].size();
+        if (matrix.size()) {
+            return matrix[0].size();
+        }
+        return 0;
     }
 
 private:
@@ -141,11 +148,13 @@ ostream& operator << (ostream& stream, const Matrix& matrix) {
     if (stream) {
         stream << matrix.GetNumRows() << " " << matrix.GetNumColumns() << endl;
 
-        for (int i = 0; i < matrix.GetNumRows(); ++i) {
-            for (int j = 0; j < matrix.GetNumColumns(); ++j) {
-                stream << matrix.At(i, j) << " ";
+        if (matrix.GetNumRows() != 0 && matrix.GetNumColumns() != 0) {
+            for (int i = 0; i < matrix.GetNumRows(); ++i) {
+                for (int j = 0; j < matrix.GetNumColumns(); ++j) {
+                    stream << matrix.At(i, j) << " ";
+                }
+                stream << endl;
             }
-            stream << endl;
         }
     }
     return (stream);
