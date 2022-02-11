@@ -8,8 +8,9 @@ using namespace std;
 class Matrix {
 public:
     Matrix() {
-        //конструктор по умолчанию, должен создавать матрицу, содержащую 0 строк и 0 столбцов2
-        matrix.resize(0);
+        //конструктор по умолчанию, должен создавать матрицу, содержащую 0 строк и 0 столбцов
+        rows_count = 0;
+        cols_count = 0;
     }
 
     Matrix(int num_rows, int num_cols) {
@@ -19,12 +20,21 @@ public:
             throw out_of_range("");
         }
 
-        matrix.resize(num_rows);
-        if (num_rows != 0 || num_cols != 0) {
-            for (auto row : matrix) {
-                row.resize(num_cols);
-            }
+        if (num_rows == 0 || num_cols == 0) {
+            rows_count = 0;
+            cols_count = 0;
+        } else {
+            rows_count = num_rows;
+            cols_count = num_cols;
         }
+
+        matrix.resize(rows_count);
+        for (auto& row : matrix) {
+            row.resize(cols_count);
+            for (auto& item : row) {
+                item = 0;
+            }
+        } //заменить этот код специальным приватным методом
     }
 
     void Reset(int num_rows, int num_cols) {
@@ -34,13 +44,19 @@ public:
             throw out_of_range("");
         }
 
-        matrix.resize(num_rows);
-        if (num_cols != 0 && num_rows != 0) {
-            for (auto& row : matrix) {
-                row.resize(num_cols);
-                for (auto& item : row) {
-                    item = 0;
-                }
+        if (num_rows == 0 || num_cols == 0) {
+            rows_count = 0;
+            cols_count = 0;
+        } else {
+            rows_count = num_rows;
+            cols_count = num_cols;
+        }
+
+        matrix.resize(rows_count);
+        for (auto& row : matrix) {
+            row.resize(cols_count);
+            for (auto& item : row) {
+                item = 0;
             }
         }
     }
@@ -48,7 +64,7 @@ public:
     int At(int row, int col) const {
         //вернуть элемент по адресу [row][col]
         //выкинуть out_of_range если ячейка выходит за границв матрицы
-        if (row > GetNumRows() - 1 || row < 0 || col > GetNumColumns() - 1 || col < 0) {
+        if (row > rows_count - 1 || row < 0 || col > cols_count - 1 || col < 0) {
             throw out_of_range("");
         }
 
@@ -58,7 +74,7 @@ public:
     int& At(int row, int col) {
         //вернуть ссылку на элемент по адресу [row][col]
         //выкинуть out_of_range если ячейка выходит за границв матрицы
-        if (row > GetNumRows() - 1 || row < 0 || col > GetNumColumns() - 1 || col < 0) {
+        if (row > rows_count - 1 || row < 0 || col > cols_count - 1 || col < 0) {
             throw out_of_range("");
         }
 
@@ -67,19 +83,18 @@ public:
 
     int GetNumRows() const {
         //вернуть количество строк в матрице
-        return matrix.size();
+        return rows_count;
     }
 
     int GetNumColumns() const {
         //вернуть количество столбцов в матрице
-        if (matrix.size()) {
-            return matrix[0].size();
-        }
-        return 0;
+        return cols_count;
     }
 
 private:
     vector <vector <int>> matrix;
+    int rows_count;
+    int cols_count;
 };
 
 bool IsEqualSize(const Matrix& lhs, const Matrix& rhs) {
@@ -96,8 +111,8 @@ Matrix operator + (Matrix lhs, Matrix rhs) {
         throw invalid_argument("");
     }
 
-    Matrix res;
-    res.Reset(lhs.GetNumRows(), lhs.GetNumColumns());
+    Matrix res(lhs.GetNumRows(), lhs.GetNumColumns());
+    //res.Reset(lhs.GetNumRows(), lhs.GetNumColumns());
 
     for (int i = 0; i < res.GetNumRows(); ++i) {
         for (int j = 0; j < res.GetNumColumns(); ++j) {
@@ -106,7 +121,6 @@ Matrix operator + (Matrix lhs, Matrix rhs) {
     }
     return res;
 }
-//если переданные матрицы имеют имеют разные размеры выкинуть invalid_argument
 
 bool operator == (const Matrix& lhs, const Matrix& rhs) {
 
