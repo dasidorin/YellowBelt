@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/dsidorin/Documents/learning/coursera/YellowBelt/RegionBase/main.cpp
+iostream
+-
+vector
+-
+string
+-
+map
+-
+tuple
+-
+algorithm
+-
+
