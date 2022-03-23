@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/MatrixSum.dir/main.cpp.o -o MatrixSum 
