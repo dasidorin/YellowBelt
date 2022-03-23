@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/dsidorin/Documents/learning/coursera/YellowBelt/MatrixSum/main.cpp
+iostream
+-
+fstream
+-
+stdexcept
+-
+vector
+-
+
