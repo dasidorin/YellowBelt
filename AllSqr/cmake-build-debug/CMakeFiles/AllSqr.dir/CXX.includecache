@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/dsidorin/Documents/learning/coursera/YellowBelt/AllSqr/main.cpp
+iostream
+-
+string
+-
+tuple
+-
+vector
+-
+map
+-
+
