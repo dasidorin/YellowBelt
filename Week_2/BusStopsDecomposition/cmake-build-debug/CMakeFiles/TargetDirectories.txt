@@ -1,0 +1,3 @@
+/home/dsidorin/Documents/learning/coursera/YellowBelt/Week_2/BusStopsDecomposition/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/dsidorin/Documents/learning/coursera/YellowBelt/Week_2/BusStopsDecomposition/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/dsidorin/Documents/learning/coursera/YellowBelt/Week_2/BusStopsDecomposition/cmake-build-debug/CMakeFiles/BusStopsDecomposition.dir

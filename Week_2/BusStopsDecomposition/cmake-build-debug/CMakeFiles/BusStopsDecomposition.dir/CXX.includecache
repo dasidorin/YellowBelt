@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/dsidorin/Documents/learning/coursera/YellowBelt/Week_2/BusStopsDecomposition/main.cpp
+string
+-
+iostream
+-
+cassert
+-
+vector
+-
+map
+-
+algorithm
+-
+
