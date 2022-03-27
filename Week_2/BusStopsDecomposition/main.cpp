@@ -25,6 +25,9 @@ void InputNewBus(istream& is, Query& q) {
     is >> q.bus;
     size_t stop_count = 0;
     is >> stop_count;
+    if (!q.stops.empty()) {
+        q.stops.clear();
+    }
     for (size_t i = 0; i < stop_count; ++i) {
         string current_stop;
         is >> current_stop;
@@ -79,40 +82,38 @@ ostream& operator << (ostream& os, const BusesForStopResponse& r) {
     return os;
 }
 
+bool operator == (const BusesForStopResponse& r1, const BusesForStopResponse& r2) {
+    return (r1.stop == r2.stop && r1.buses == r2.buses);
+}
+
 struct StopsForBusResponse {
   // Наполните полями эту структуру
   string bus;
-  map <string, vector <string>> stop_to_bus_stripped;
-  //в этом поле хранится словарь из остановки в список автобусов, откуда вырезан автобус bus
+  vector <BusesForStopResponse> buses_for_stop; //вектор всех остановок маршрута со списком автобусов для каждой остановки
 };
 
 ostream& operator << (ostream& os, const StopsForBusResponse& r) {
     //вывести описание всех остановок маршрута bus
-    //если словарь stop_to_bus_stripped пуст - вывести No bus
-    //если вектор словаря stop_to_bus_stripped пуст - вывести no interchange
     if (r.bus.empty()) {
         os << "No bus";
     } else {
-        //итерируемся по словарю stop_to_bus_stripped, выводим название каждой остановки и потом список автобусов
-        for (const auto& [key, value] : r.stop_to_bus_stripped) {
-            //key - название оставноки, value - список автобусов
-             os << "Stop " << key << ": ";
-             //проверяем, что список автобусов не пуст
-             //если в списке единственный элемент и этот элемент bus
-             if (value.size() == 1 && value[0] == r.bus) {
-                 os << "no interchange";
-             } else {
-                 for (const auto& bus : value) {
-                     if (bus != r. bus) {
-                         os << bus << " ";
-                     }
-                 }
-             }
-             os << endl;
+        for (const auto& item : r.buses_for_stop) {
+            os << "Stop " << item.stop << ": ";
+            if (item.buses.size() == 1 && item.buses[0] == r.bus) {
+                os << "no interchange";
+            } else {
+                for (const auto& current_bus : item.buses) {
+                    if (current_bus != r.bus) {
+                        os << current_bus << " ";
+                    }
+                }
+            }
+            os << endl;
         }
     }
   return os;
 }
+
 
 struct AllBusesResponse {
      map <string, vector <string>> all_busses;
@@ -144,7 +145,7 @@ public:
       bus_to_stops[bus] = stops;
       //последовательно добавить новые ключи из вектора stops в словарь stop_to_buses со значением bus
       for (const auto& stop : stops) {
-          stop_to_buses[stop].push_back(bus);
+              stop_to_buses[stop].push_back(bus);
       }
   }
 
@@ -152,9 +153,7 @@ public:
       BusesForStopResponse r;
       r.stop = stop;
       if (stop_to_buses.count(stop)) {
-          for (const auto& bus : stop_to_buses.at(stop)) {
-              r.buses.push_back(bus);
-          }
+         r.buses = stop_to_buses.at(stop);
       }
       return r;
   }
@@ -164,10 +163,10 @@ public:
 
     if (bus_to_stops.count(bus)) { //если словарь автобус - остановки имеет такой автобус
         r.bus = bus;
-        //нужно получить список его остановок и проитерироваться по нему
-        for (const auto& current_stop : bus_to_stops.at(bus)) {
-            //для каждой остановки получить список автобусов и записать в возвращаемый словарь
-            r.stop_to_bus_stripped[current_stop] = stop_to_buses.at(current_stop);
+        //получить список остановок этого автобуса и проитерироваться по нему
+        for (const auto& stop : bus_to_stops.at(bus)) {
+            //для каждой остановки получаем GetBusesForStop и добавляем в конец вектора
+            r.buses_for_stop.push_back(GetBusesForStop(stop));
         }
     }
     return r;
