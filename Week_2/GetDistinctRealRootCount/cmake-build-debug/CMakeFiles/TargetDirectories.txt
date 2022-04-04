@@ -1,0 +1,3 @@
+/home/dsidorin/Documents/learning/coursera/YellowBelt/Week_2/GetDistinctRealRootCount/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/dsidorin/Documents/learning/coursera/YellowBelt/Week_2/GetDistinctRealRootCount/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/dsidorin/Documents/learning/coursera/YellowBelt/Week_2/GetDistinctRealRootCount/cmake-build-debug/CMakeFiles/GetDistinctRealRootCount.dir
